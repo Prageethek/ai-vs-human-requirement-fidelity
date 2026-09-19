@@ -1,61 +1,61 @@
-# Requirements Fidelity in the Age of Generative AI
-**SENG 43216: Software Engineering Research Project** *University of Kelaniya - Faculty of Science* 
+# AI vs Human Requirement Fidelity: Empirical Evaluation of LLM Code Synthesis
+
+An empirical software engineering research framework investigating **Requirement Fidelity**, **Boundary Value Analysis (BVA)**, and **Intent Alignment** in Large Language Model (LLM) code generation. 
+
+This study rigorously contrasts traditional unconstrained **Natural Language Requirements (Baseline NLP)** against formal **Specification-Driven Development (SDD / BDD Gherkin)** across frontier AI models: **GPT-4**, **Claude 4.6 Opus**, and **Gemini 3.1 Pro**.
 
 ---
 
-## 📌 Project Overview
-This research conducts a controlled empirical comparison between **AI-generated** and **Human-developed** software systems. The primary focus is to measure **Requirement Fidelity**—the extent to which the final software product satisfies customer-defined functional and non-functional requirements.
+## 1. Research Overview & Problem Statement
 
-We utilize a medium-complexity **E-commerce Platform** as a case study to evaluate three development conditions:
-1. **Condition A:** Fully AI-Generated (Complete software developed using frontier LLM tools with structured prompt engineering).
-2. **Condition B:** Human-Led Traditional (Developed by an experienced team following Agile methodology).
-3. **Condition C:** Hybrid AI-Assisted (Human developers utilizing AI tools as assistants—industry standard).
+While modern code generation LLMs excel at generating syntactically valid code, they exhibit high susceptibility to **Requirement Drift** and boundary violations under real-world enterprise transactional constraints:
+* **Silent Failure & Assumption Hallucination:** Omitting boundary validations on zero, negative, or fractional numeric inputs.
+* **Transactional State Corruption:** Mutating cart or transaction states even after rejection.
+* **Side-Effect Omission:** Failing to invalidate guest sessions or preserve idempotency flags post-merge.
+* **Error Payload Degradation:** Returning generic runtime exceptions rather than mathematically exact deficit calculations.
 
-## 🎯 Research Objectives
-* **RO1:** To systematically measure and compare the degree to which AI and Human projects satisfy explicit customer acceptance criteria.
-* **RO2:** To identify and categorize the types and severity of requirement-related defects (omissions vs. misinterpretations).
-* **RO3:** To evaluate the satisfaction of Non-Functional Requirements (NFRs) such as performance, security, and usability.
-* **RO4:** To develop an evidence-based decision-support framework for industry practitioners.
-
-## 📊 Key Metric: RTC
-The primary dependent variable is the **Requirement Traceability Coverage (RTC)**:
-
-$$RTC = \left( \frac{\text{Number of Acceptance Criteria Passed}}{\text{Total Number of Acceptance Criteria Defined}} \right) \times 100\%$$
+This repository provides an automated, deterministic evaluation firewall executing **25 rigorous Boundary Value Analysis (BVA) and Equivalence Partitioning (EP) assertions** per domain to empirically quantify the Failure Distribution Rate (FDR).
 
 ---
 
-## 📂 Repository Structure
-This repository follows the mandatory structure defined in the **SENG 43216 Project Guidelines** :
+### Key Research Insight
+By shifting the input paradigm from ambiguous natural language prompts to formal **Given-When-Then (Gherkin)** behavioral specifications, the average Failure Distribution Rate contracts from **32.0% down to 8.0%**, demonstrating that requirement structuring fundamentally enforces boundary adherence and intent alignment.
+
+---
+
+## 3. Repository Architecture
 
 ```text
-project-name/
-├── README.md           # Project overview and navigation
-├── docs/               # Project documentation
-│   ├── proposal/       # Milestone 1: Research Proposal [cite: 179]
-│   ├── interim-report/ # Milestone 3: Intermediate Report [cite: 238]
-│   ├── final-thesis/   # Milestone 4: Final Thesis [cite: 277]
-│   └── presentations/  # All milestone presentation slides
-├── src/                # Source code organized by component (AI, Human, Hybrid) [cite: 441]
-├── data/               # Datasets, user study results, and metrics [cite: 443]
-├── tests/              # Gherkin test cases and automated scripts [cite: 445]
-├── results/            # Experimental results and RTC data [cite: 447]
-└── LICENSE             # Project license information
-
-```
-## 📅 Milestones & Timeline
-* Milestone 1: Proposal Submission & Presentation (Week 4).
-* Milestone 2: Monthly Progress Reports (Last Friday of each month).
-* Milestone 3: Intermediate Report & Presentation (Week 14-15).
-* Milestone 4: Final Thesis & Presentation (Week 30).
-* Milestone 5: Final Individual Evaluation Report (Final + 1 Week).
-
-## 🛠 Documentation & Standards
-* Version Control: Mandatory use of Git with regular, meaningful commits.
-* Attribution: AI tool usage is disclosed and verified in compliance with the Ethical AI Tool Usage policy.
-* Testing: Projects demonstrate unit testing and validation studies for quality assurance.
-
-## 👥 Team Organization
-* SE/2021/028
-* SE/2021/049
-* SE/2021/039
-* SE/2021/058
+ai-vs-human-requirement-fidelity/
+│
+├── prompts/                         # Experimental Prompting Scaffolding
+│   ├── README.md                    # Methodology (CoT + Self-Criticism Engine)
+│   ├── system_prompt.md             # Standardized System Instructional Tier
+│   ├── method_1_baseline.md         # Method 1: Natural Language Requirements
+│   └── method_2_sdd.md              # Method 2: Formal Gherkin / BDD Specifications
+│
+├── src/                             # Synthesized Model Source Modules
+│   ├── README.md                    # Source Catalog & Domain Responsibilities
+│   ├── method_1_baseline/           # Unconstrained NLP Implementations
+│   │   ├── checkout/
+│   │   ├── promotions/
+│   │   └── shopping_cart/           # gpt4_cart.js, claude_cart.js, gemini_cart.js
+│   └── method_2_sdd/                # Formal SDD Implementations
+│       ├── checkout/
+│       ├── promotions/
+│       └── shopping_cart/           # gpt4_cart.js, claude_cart.js, gemini_cart.js
+│
+├── tests/                           # Deterministic Test Firewall
+│   ├── suites/
+│   │   └── cart_assertions.test.js  # 25 BVA/EP Behavioral Assertions
+│   └── runners/
+│       └── shopping_cart/           # Individual Execution Runners per Track
+│           ├── test_baseline_gpt4.js
+│           ├── test_baseline_claude.js
+│           ├── test_baseline_gemini.js
+│           ├── test_sdd_gpt4.js
+│           ├── test_sdd_claude.js
+│           └── test_sdd_gemini.js
+│
+├── package.json                     # Environment configuration & test scripts
+└── README.md                        # Master Project Documentation
